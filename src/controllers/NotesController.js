@@ -5,7 +5,7 @@ class NotesController {
   async create(request, response) {
     let ratingIsvalid;
     const { title, description, rating, tags } = request.body;
-    const { user_id } = request.params;
+    const  user_id  = request.user.id;
 
     const rating_number = Number(rating);
 
@@ -48,6 +48,14 @@ class NotesController {
     await knex("notes").where({ id }).delete();
 
     return response.json();
+  }
+    async show(request, response) {
+    const { id } = request.params;
+
+    const note = await knex("notes").where({ id }).first();
+    const tags = await knex("tags").where({ note_id: id }).orderBy("name");
+
+    return response.json({ ...note, tags});
   }
 }
 
