@@ -70,7 +70,7 @@ class UsersController {
       [user.name, user.email, user.password, user_id]
     );
 
-    return response.json();
+    return response.status(201).json();
   }
 }
 
